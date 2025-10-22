@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const Header = () => {
   const location = useLocation();
+  const { getTotalItems } = useCart();
 
   const isActive = (path) => {
     return location.pathname === path ? 'active' : '';
@@ -60,6 +62,28 @@ const Header = () => {
                 to="/contact"
               >
                 Contact
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link 
+                className={`nav-link ${isActive('/cart')}`} 
+                to="/cart"
+                style={{position: 'relative'}}
+              >
+                🛒 Cart
+                {getTotalItems() > 0 && (
+                  <span 
+                    className="badge bg-danger rounded-pill"
+                    style={{
+                      position: 'absolute',
+                      top: '-8px',
+                      right: '-8px',
+                      fontSize: '0.7rem'
+                    }}
+                  >
+                    {getTotalItems()}
+                  </span>
+                )}
               </Link>
             </li>
           </ul>
